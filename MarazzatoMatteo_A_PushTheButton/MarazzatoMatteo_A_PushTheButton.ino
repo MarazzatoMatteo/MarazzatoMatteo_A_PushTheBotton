@@ -3,7 +3,6 @@
 #include <LiquidCrystal.h>
 
 
-
 int btnSX = 8;
 int btnCX = 9;
 int btnDX = 10;
@@ -105,10 +104,15 @@ void loop()
     delay(750);
   }
 
+  finalTime = millis();
   lcd.clear();
   choose = false;
 
-  delay (500);
+  finalScore();
+    delay(4000);
+
+  lcd.clear();
+    //delay (500);
 }
 
 
@@ -143,8 +147,6 @@ void selectLives()
   {
     select = true;
     lcd.clear();
-
-    startTime = millis();
   }
 }
 
@@ -299,6 +301,7 @@ void levels()
       {
         nmbrOfLivels = 15;
         choose = true;
+        startTime = millis();
         lcd.clear();
       }
       
@@ -306,6 +309,7 @@ void levels()
       {
         nmbrOfLivels = 30;
         choose = true;
+        startTime = millis();
         lcd.clear();
       }
       
@@ -313,6 +317,7 @@ void levels()
       {
         nmbrOfLivels = 50;
         choose = true;
+        startTime = millis();
         lcd.clear();
       }  
 }
@@ -326,3 +331,32 @@ void printLevels()
   lcd.setCursor(12,0);
   lcd.print("HARD");
 }
+
+void finalScore()
+{
+  lcd.setCursor(1,0);
+  lcd.print("PLAYING TIME:");
+  lcd.setCursor(7,1);
+  lcd.print((finalTime - startTime)/1000);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//  Copyright ITT Eugenio Barsanti / Produced by MARAZZATO MATTEO - 4BI  //
