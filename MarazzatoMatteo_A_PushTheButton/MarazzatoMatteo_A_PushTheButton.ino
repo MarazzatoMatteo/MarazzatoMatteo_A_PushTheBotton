@@ -16,8 +16,8 @@ int location;
 int startTime;
 int finalTime;
 
-int nmbrOfLivels;
-bool choose;
+//int nmbrOfLivels;
+//bool choose;
 
 LiquidCrystal lcd(2, 3, 4, 5, 6, 7);
 
@@ -77,13 +77,13 @@ void setup()
 
   lcd.clear();
 
-  lcd.setCursor(0,0);
-  lcd.write(byte(0));
-
 }
 
 void loop() 
 {
+  lcd.setCursor(0,0);
+  lcd.write(byte(0));
+  
   while (select == false)
   {
     printStringLives();
@@ -91,28 +91,25 @@ void loop()
   }
 
     delay(500);
-
-  while (choose == false)
+    
+  if (lives >= 1)
   {
-    printLevels();
-    levels();
+    for (int i = 1;i<=lives*i;i++)
+    {
+      printCharacter();
+      delay(750);
+    }
   }
 
-  for (int i = 0;i<nmbrOfLivels;i++)
+  else
   {
-    printCharacter();
-    delay(750);
-  }
-
-  finalTime = millis();
-  lcd.clear();
-  choose = false;
-
-  finalScore();
+    //lcd.clear();
+    timer();
     delay(4000);
+    select = false;
+  }
 
   lcd.clear();
-    //delay (500);
 }
 
 
@@ -146,6 +143,7 @@ void selectLives()
   else if (digitalRead(btnCX) == HIGH)
   {
     select = true;
+    startTime = millis();
     lcd.clear();
   }
 }
@@ -175,11 +173,11 @@ void printStringLives()
 
 void timer()
 {
-  if (digitalRead(btnCX) == HIGH)
-  {
     finalTime = millis();
-    select = false;
-  }
+    lcd.setCursor(1,0);
+    lcd.print("PLAYING TIME:");
+    lcd.setCursor(7,1);
+    lcd.print((finalTime - startTime)/1000);
 }
 
 void printCharacter()
@@ -204,7 +202,7 @@ void printCharacter()
       lcd.write(byte(2));
       redrawLives();
       
-        delay(1000);
+        delay(500);
 
       if (digitalRead(btnSX) == HIGH)
       {
@@ -237,7 +235,7 @@ void printCharacter()
       lcd.write(byte(2));
       redrawLives();
       
-        delay(1000);
+        delay(500);
 
       if (digitalRead(btnCX) == HIGH)
       {
@@ -269,7 +267,7 @@ void printCharacter()
       lcd.write(byte(2));
       redrawLives();
       
-        delay(1000);
+        delay(500);
 
       if (digitalRead(btnDX) == HIGH)
       {
@@ -295,33 +293,6 @@ void redrawLives()
     }
 }
 
-void levels()
-{
-  if (digitalRead(btnSX) == HIGH)
-      {
-        nmbrOfLivels = 15;
-        choose = true;
-        startTime = millis();
-        lcd.clear();
-      }
-      
-  else if (digitalRead(btnCX) == HIGH)
-      {
-        nmbrOfLivels = 30;
-        choose = true;
-        startTime = millis();
-        lcd.clear();
-      }
-      
-  else if (digitalRead(btnDX) == HIGH)
-      {
-        nmbrOfLivels = 50;
-        choose = true;
-        startTime = millis();
-        lcd.clear();
-      }  
-}
-
 void printLevels()
 {
   lcd.setCursor(0,0);
@@ -334,6 +305,7 @@ void printLevels()
 
 void finalScore()
 {
+  lcd.clear();
   lcd.setCursor(1,0);
   lcd.print("PLAYING TIME:");
   lcd.setCursor(7,1);
