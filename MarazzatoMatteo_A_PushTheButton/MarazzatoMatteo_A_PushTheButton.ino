@@ -61,7 +61,9 @@ byte bad[8] =
 
 void setup() 
 {
-  randomSeed(analogRead(0));
+  Serial.begin(9600);
+  
+  randomSeed(analogRead(5));
   //lives = random(1,6);
   
   bool select = false;
@@ -76,6 +78,13 @@ void setup()
   moveDisplay();
 
   lcd.clear();
+
+  int prova = 0;
+  while (prova < 500)
+  {
+    Serial.println(prova);
+    prova++;
+  }
 
 }
 
@@ -94,20 +103,22 @@ void loop()
     
   if (lives >= 1)
   {
+    startTime = millis();
+    
     for (int i = 1;i<=lives*i;i++)
     {
       printCharacter();
-      delay(750);
+      delay(500);
+      Serial.println(millis()/1000);
     }
-  }
 
-  else
-  {
-    //lcd.clear();
-    timer();
-    delay(4000);
-    select = false;
+    finalTime = millis();
+      //delay(200);
   }
+  
+      delay(500);
+    timer();
+      delay(4000);
 
   lcd.clear();
 }
@@ -143,7 +154,7 @@ void selectLives()
   else if (digitalRead(btnCX) == HIGH)
   {
     select = true;
-    startTime = millis();
+    //startTime = millis();
     lcd.clear();
   }
 }
@@ -173,11 +184,46 @@ void printStringLives()
 
 void timer()
 {
-    finalTime = millis();
-    lcd.setCursor(1,0);
-    lcd.print("PLAYING TIME:");
-    lcd.setCursor(7,1);
-    lcd.print((finalTime - startTime)/1000);
+    //finalTime = millis();
+    
+    Serial.println (finalTime/1000);
+    Serial.println (startTime/1000);
+    
+    lcd.setCursor(2,0);
+    lcd.print("PLAYING TIME");
+
+    Serial.println ((finalTime - startTime)/1000);
+
+    if ((finalTime - startTime)/1000 < 10)
+    {
+      lcd.setCursor(4,1);
+      lcd.print("00");
+      lcd.setCursor(6,1);
+      lcd.print((finalTime - startTime)/1000);
+      lcd.setCursor(7,1);
+      lcd.print(" sec");
+    }
+
+    else if ((finalTime - startTime)/1000 >= 10 && ((finalTime - startTime)/1000) < 100)
+    {
+      lcd.setCursor(4,1);
+      lcd.print("0");
+      lcd.setCursor(5,1);
+      lcd.print((finalTime - startTime)/1000);
+      lcd.setCursor(7,1);
+      lcd.print(" sec");
+    }
+
+    else if ((finalTime - startTime)/1000 >= 100)
+    {
+      lcd.setCursor(4,1);
+      lcd.print((finalTime - startTime)/1000);
+      lcd.setCursor(7,1);
+      lcd.print(" sec");
+    }
+
+    lives = 1;
+    select = false;
 }
 
 void printCharacter()
@@ -193,6 +239,19 @@ void printCharacter()
       lcd.setCursor(3,1);
       lcd.write(byte(1));
       redrawLives();
+      
+        delay(400);
+
+      if (digitalRead(btnSX) == HIGH)
+      {
+        lives--;
+        redrawLives();
+      }
+
+      else
+      {
+        redrawLives();
+      }
     }
 
     else if (typeOfCharact >= 8)
@@ -226,6 +285,19 @@ void printCharacter()
       lcd.setCursor(8,1);
       lcd.write(byte(1));
       redrawLives();
+      
+        delay(400);
+
+      if (digitalRead(btnCX) == HIGH)
+      {
+        lives--;
+        redrawLives();
+      }
+
+      else
+      {
+        redrawLives();
+      }
     }
 
     else if (typeOfCharact >= 8)
@@ -258,6 +330,19 @@ void printCharacter()
       lcd.setCursor(12,1);
       lcd.write(byte(1));
       redrawLives();
+      
+        delay(400);
+
+      if (digitalRead(btnDX) == HIGH)
+      {
+        lives--;
+        redrawLives();
+      }
+
+      else
+      {
+        redrawLives();
+      }  
     }
 
     else if (typeOfCharact >= 8)
@@ -286,11 +371,17 @@ void printCharacter()
 
 void redrawLives()
 {
-  for (int i = 0;i<lives;i++)
+
+  if (lives == 0){delay(250);lcd.clear();}
+
+  else
+  {
+    for (int i = 0;i<lives;i++)
     {
       lcd.setCursor(i,0);
       lcd.write(byte(0));
     }
+  }
 }
 
 void printLevels()
@@ -303,14 +394,6 @@ void printLevels()
   lcd.print("HARD");
 }
 
-void finalScore()
-{
-  lcd.clear();
-  lcd.setCursor(1,0);
-  lcd.print("PLAYING TIME:");
-  lcd.setCursor(7,1);
-  lcd.print((finalTime - startTime)/1000);
-}
 
 
 
