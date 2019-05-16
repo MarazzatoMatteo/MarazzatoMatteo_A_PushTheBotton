@@ -79,12 +79,24 @@ void setup()
 
   lcd.clear();
 
-  int prova = 0;
-  while (prova < 500)
-  {
-    Serial.println(prova);
-    prova++;
-  }
+      /*int prova = 0;
+      int prova2 = 0;
+      Serial.println("PRONTI");
+        delay(250);
+      while (prova < 500)
+      {
+        prova2 = digitalRead(btnSX);
+        Serial.println(prova);
+
+        if (prova2 == 1)
+        {
+          prova = 500;
+        }
+
+        else {
+          prova++;
+        }
+  }*/
 
 }
 
@@ -109,7 +121,7 @@ void loop()
     {
       printCharacter();
       delay(500);
-      Serial.println(millis()/1000);
+      //Serial.println(millis()/1000);
     }
 
     finalTime = millis();
@@ -186,13 +198,13 @@ void timer()
 {
     //finalTime = millis();
     
-    Serial.println (finalTime/1000);
-    Serial.println (startTime/1000);
+    //Serial.println (finalTime/1000);
+    //Serial.println (startTime/1000);
     
     lcd.setCursor(2,0);
     lcd.print("PLAYING TIME");
 
-    Serial.println ((finalTime - startTime)/1000);
+    //Serial.println ((finalTime - startTime)/1000);
 
     if ((finalTime - startTime)/1000 < 10)
     {
@@ -239,10 +251,25 @@ void printCharacter()
       lcd.setCursor(3,1);
       lcd.write(byte(1));
       redrawLives();
-      
-        delay(400);
 
-      if (digitalRead(btnSX) == HIGH)
+        delay(500);
+      
+      int wait = 0;
+      int pressure = 0;
+      while (wait < 300)
+      {
+        pressure = digitalRead(btnSX);
+        if (pressure == 1)
+        {
+          wait = 300;
+        }
+
+        else {wait++;}
+      }
+      
+        delay(100);
+
+      if (pressure == 1)
       {
         lives--;
         redrawLives();
@@ -260,10 +287,25 @@ void printCharacter()
       lcd.setCursor(3,1);
       lcd.write(byte(2));
       redrawLives();
-      
-        delay(500);
 
-      if (digitalRead(btnSX) == HIGH)
+        delay(500);
+      
+      int wait = 0;
+      int pressure = 0;
+      while (wait < 300)
+      {
+        pressure = digitalRead(btnSX);
+        if (pressure == 1)
+        {
+          wait = 300;
+        }
+
+        else {wait++;}
+      }
+      
+        delay(100);
+
+      if (pressure == 1)
       {
         redrawLives();
       }
@@ -285,10 +327,25 @@ void printCharacter()
       lcd.setCursor(8,1);
       lcd.write(byte(1));
       redrawLives();
-      
-        delay(400);
 
-      if (digitalRead(btnCX) == HIGH)
+        delay(500);
+      
+      int wait = 0;
+      int pressure = 0;
+      while (wait < 300)
+      {
+        pressure = digitalRead(btnCX);
+        if (pressure == 1)
+        {
+          wait = 300;
+        }
+
+        else {wait++;}
+      }
+      
+        delay(100);
+
+      if (pressure == 1)
       {
         lives--;
         redrawLives();
@@ -306,10 +363,25 @@ void printCharacter()
       lcd.setCursor(8,1);
       lcd.write(byte(2));
       redrawLives();
-      
-        delay(500);
 
-      if (digitalRead(btnCX) == HIGH)
+        delay(500);
+      
+      int wait = 0;
+      int pressure = 0;
+      while (wait < 300)
+      {
+        pressure = digitalRead(btnCX);
+        if (pressure == 1)
+        {
+          wait = 300;
+        }
+
+        else {wait++;}
+      }
+      
+        delay(100);
+
+      if (pressure == 1)
       {
         redrawLives();
       }
@@ -330,10 +402,25 @@ void printCharacter()
       lcd.setCursor(12,1);
       lcd.write(byte(1));
       redrawLives();
-      
-        delay(400);
 
-      if (digitalRead(btnDX) == HIGH)
+        delay(500);
+      
+      int wait = 0;
+      int pressure = 0;
+      while (wait < 300)
+      {
+        pressure = digitalRead(btnDX);
+        if (pressure == 1)
+        {
+          wait = 300;
+        }
+
+        else {wait++;}
+      }
+      
+        delay(100);
+
+      if (pressure == 1)
       {
         lives--;
         redrawLives();
@@ -342,7 +429,7 @@ void printCharacter()
       else
       {
         redrawLives();
-      }  
+      }
     }
 
     else if (typeOfCharact >= 8)
@@ -351,10 +438,25 @@ void printCharacter()
       lcd.setCursor(12,1);
       lcd.write(byte(2));
       redrawLives();
-      
-        delay(500);
 
-      if (digitalRead(btnDX) == HIGH)
+        delay(500);
+      
+      int wait = 0;
+      int pressure = 0;
+      while (wait < 300)
+      {
+        pressure = digitalRead(btnDX);
+        if (pressure == 1)
+        {
+          wait = 300;
+        }
+
+        else {wait++;}
+      }
+      
+        delay(100);
+
+      if (pressure == 1)
       {
         redrawLives();
       }
