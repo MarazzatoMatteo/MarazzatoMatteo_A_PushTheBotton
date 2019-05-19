@@ -3,9 +3,9 @@
 #include <LiquidCrystal.h>
 
 
-int btnSX = 8;
-int btnCX = 9;
-int btnDX = 10;
+int btnSX = 8;  //BTN SX
+int btnCX = 9;  //BTN CX
+int btnDX = 10; //BTN DX
 
 int lives = 1;
 bool select;
@@ -236,9 +236,14 @@ void printCharacter()
   typeOfCharact = random(0,10);
   location = random(1,4);
 
-  if (location == 1){location = 3;}
-  else if (location == 2){location = 8;}
-  else if (location == 3){location = 12;}
+    int btnRight;
+    if (location == 1){btnRight = btnSX;}
+    else if (location == 2){btnRight = btnCX;}
+    else{btnRight = btnDX;}
+
+    if (location == 1){location = 3;}
+    else if (location == 2){location = 8;}
+    else if (location == 3){location = 12;}
 
   if (typeOfCharact < 8)
   {
@@ -251,16 +256,19 @@ void printCharacter()
     
     int wait = 0;
     int pressure = 0;
-    while (wait < 20000)
+      int i = 0;
+    while (wait < 300)
     {
-      if (digitalRead(btnSX) == HIGH || digitalRead(btnCX) == HIGH || digitalRead(btnDX) == HIGH){pressure = 1;}
+      if (digitalRead(btnRight) == HIGH){pressure = 1;}
       else if (digitalRead(btnSX) == LOW && digitalRead(btnCX) == LOW && digitalRead(btnDX) == LOW){pressure = 0;}
       
       if (pressure == 1)
       {
-      wait = 2000;
+      wait = 300;
       }
       else if (pressure == 0){wait++;}
+
+        Serial.println(i++);
     }
 
       delay(150);
@@ -285,16 +293,19 @@ void printCharacter()
 
     int wait = 0;
     int pressure = 0;
-    while (wait < 20000)
+      int i = 0;
+    while (wait < 300)
     {
-      if (digitalRead(btnSX) == HIGH || digitalRead(btnCX) == HIGH || digitalRead(btnDX) == HIGH){pressure = 1;}
+      if (digitalRead(btnRight) == HIGH){pressure = 1;}
       else if (digitalRead(btnSX) == LOW && digitalRead(btnCX) == LOW && digitalRead(btnDX) == LOW){pressure = 0;}
       
       if (pressure == 1)
       {
-      wait = 2000;
+      wait = 300;
       }
       else if (pressure == 0){wait++;}
+
+        Serial.println(i++);
     }
 
       delay(150);
