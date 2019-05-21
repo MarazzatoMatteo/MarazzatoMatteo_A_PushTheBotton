@@ -3,9 +3,9 @@
 #include <LiquidCrystal.h>
 
 
-int btnSX = 8;  //BTN SX
-int btnCX = 9;  //BTN CX
-int btnDX = 10; //BTN DX
+int btnSX = 8;
+int btnCX = 9;
+int btnDX = 10;
 
 int lives = 1;
 bool select;
@@ -64,7 +64,6 @@ void setup()
   Serial.begin(9600);
   
   randomSeed(analogRead(5));
-  //lives = random(1,6);
   
   bool select = false;
   bool choose = false;
@@ -78,29 +77,6 @@ void setup()
   moveDisplay();
 
   lcd.clear();
-
-      /*int prova = 0;
-      int prova2 = 0;
-      Serial.println("PRONTI");
-        delay(250);
-      double tempo1 = millis();
-      while (prova < 2000)
-      {
-        prova2 = digitalRead(btnSX);
-        Serial.println(prova);
-
-        if (prova2 == 1)
-        {
-          prova = 500;
-        }
-
-        else {prova++;}
-      }
-
-      double tempo2 = millis();
-      double tempo3 = tempo2 - tempo1;
-      Serial.println(tempo3);*/
-
 }
 
 void loop() 
@@ -121,13 +97,14 @@ void loop()
     for (int i = 1;i<=lives*i;i++)
     {
       printCharacter();
-      //lcd.setCursor(14,0);
-      //lcd.print(i - 1);
       delay(750);
     }
   }
-  
     delay(500);
+    
+  printEndGame();
+  
+    delay(1000);
   timer();
     delay(4000);
 
@@ -195,6 +172,7 @@ void printStringLives()
 
 void timer()
 {
+    lcd.clear();
     finalTime = millis();
     lcd.setCursor(2,0);
     lcd.print("PLAYING TIME");
@@ -237,15 +215,17 @@ void printCharacter()
   location = random(1,4);
 
     int btnRight;
-    if (location == 1){btnRight = btnSX;}
-    else if (location == 2){btnRight = btnCX;}
-    else{btnRight = btnDX;}
+    int btnWrong1;
+    int btnWrong2;
+    if (location == 1){btnRight = btnSX;btnWrong1 = btnCX;btnWrong2 = btnDX;}
+    else if (location == 2){btnRight = btnCX;btnWrong1 = btnDX;btnWrong2 = btnSX;}
+    else{btnRight = btnDX;btnWrong1 = btnCX;btnWrong2 = btnSX;}
 
     if (location == 1){location = 3;}
     else if (location == 2){location = 8;}
     else if (location == 3){location = 12;}
 
-  if (typeOfCharact < 8)
+  if (typeOfCharact < 0)
   {
     lcd.clear();
     lcd.setCursor(location,1);
@@ -282,7 +262,7 @@ void printCharacter()
     else{redrawLives();}
   }
 
-  else if (typeOfCharact > 7)
+  else if (typeOfCharact >= 0)
   {
     lcd.clear();
     lcd.setCursor(location,1);
@@ -296,8 +276,8 @@ void printCharacter()
       int i = 0;
     while (wait < 150)
     {
-      if (digitalRead(btnRight) == HIGH){pressure = 1;}
-      else if (digitalRead(btnSX) == LOW && digitalRead(btnCX) == LOW && digitalRead(btnDX) == LOW){pressure = 0;}
+      if (digitalRead(btnRight) == HIGH && digitalRead(btnWrong1) == LOW && digitalRead(btnWrong2) == LOW){pressure = 1;}
+      else if (digitalRead(btnSX) == LOW && digitalRead(btnCX) == LOW && digitalRead(btnDX) == LOW || (digitalRead(btnRight) == HIGH || digitalRead(btnWrong1) == HIGH || digitalRead(btnWrong2) == HIGH)){pressure = 0;}
       
       if (pressure == 1)
       {
@@ -335,14 +315,13 @@ void redrawLives()
   }
 }
 
-void printLevels()
+void printEndGame()
 {
-  lcd.setCursor(0,0);
-  lcd.print("EASY");
+  lcd.clear();
+  lcd.setCursor(5,0);
+  lcd.print("!GAME!");
   lcd.setCursor(5,1);
-  lcd.print("MEDIUM");
-  lcd.setCursor(12,0);
-  lcd.print("HARD");
+  lcd.print("!OVER!");
 }
 
 
