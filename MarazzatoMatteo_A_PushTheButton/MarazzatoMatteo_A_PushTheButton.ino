@@ -1,5 +1,6 @@
 //  Copyright ITT Eugenio Barsanti / Produced by MARAZZATO MATTEO - 4BI  //
 
+
 #include <LiquidCrystal.h>
 
 
@@ -15,9 +16,6 @@ int location;
 
 float startTime;
 float finalTime;
-
-//int nmbrOfLivels;
-//bool choose;
 
 LiquidCrystal lcd(2, 3, 4, 5, 6, 7);
 
@@ -48,13 +46,13 @@ byte good[8] =
 
 byte bad[8] = 
 {
-  B01110,
-  B11111,
-  B10101,
-  B11111,
   B00000,
-  B01110,
-  B10001,
+  B11011,
+  B11011,
+  B11011,
+  B00000,
+  B01010,
+  B10101,
   B00000
 };
 
@@ -217,6 +215,7 @@ void printCharacter()
     int btnRight;
     int btnWrong1;
     int btnWrong2;
+    
     if (location == 1){btnRight = btnSX;btnWrong1 = btnCX;btnWrong2 = btnDX;}
     else if (location == 2){btnRight = btnCX;btnWrong1 = btnDX;btnWrong2 = btnSX;}
     else{btnRight = btnDX;btnWrong1 = btnCX;btnWrong2 = btnSX;}
@@ -225,7 +224,7 @@ void printCharacter()
     else if (location == 2){location = 8;}
     else if (location == 3){location = 12;}
 
-  if (typeOfCharact < 0)
+  if (typeOfCharact < 7)
   {
     lcd.clear();
     lcd.setCursor(location,1);
@@ -262,7 +261,7 @@ void printCharacter()
     else{redrawLives();}
   }
 
-  else if (typeOfCharact >= 0)
+  else if (typeOfCharact > 6)
   {
     lcd.clear();
     lcd.setCursor(location,1);
@@ -323,25 +322,6 @@ void printEndGame()
   lcd.setCursor(5,1);
   lcd.print("!OVER!");
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //  Copyright ITT Eugenio Barsanti / Produced by MARAZZATO MATTEO - 4BI  //
